@@ -1,0 +1,16 @@
+#https://minikube.sigs.k8s.io/docs/
+
+#Donwload and install
+curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+#Add user to docker user group
+sudo groupadd docker
+sudo usermod -aG docker $USER
+
+#Start Minikube...first time run intall and setup kubernetes and k8s
+minikube start
+
+#Install Ingress
+minikube addons enable ingress
+sudo apt install kubectl
