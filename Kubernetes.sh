@@ -26,6 +26,16 @@ case ${Action} in
 		#Start Minikube
 		minikube stop
 		;;
+	"--"*)
+		Action="${Action##*--}"
+		case ${Action} in
+			pods|ingress|service)
+				kubectl get ${Action}
+				;;
+			*)
+				;;
+		esac
+		;;
 	*)
 		;;
 esac
