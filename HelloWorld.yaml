@@ -1,0 +1,65 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: first-app
+  labels:
+    app: first
+spec:
+  containers:
+    - name: first-app
+      image: 'kicbase/echo-server:1.0'
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: first-service
+spec:
+  selector:
+    app: first
+  ports:
+    - port: 8080
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: second-app
+  labels:
+    app: second
+spec:
+  containers:
+    - name: second-app
+      image: 'kicbase/echo-server:1.0'
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: second-service
+spec:
+  selector:
+    app: second
+  ports:
+    - port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /first
+            backend:
+              service:
+                name: first-service
+                port:
+                  number: 8080
+          - pathType: Prefix
+            path: /second
+            backend:
+              service:
+                name: second-service
+                port:
+                  number: 8080
+---
